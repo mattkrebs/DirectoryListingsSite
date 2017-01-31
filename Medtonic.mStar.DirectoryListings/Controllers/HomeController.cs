@@ -7,24 +7,34 @@ using System.Web.Mvc;
 
 namespace Medtonic.mStar.DirectoryListings.Controllers
 {
+   
     public class HomeController : Controller
     {
 
-        public class FileName
-        {
-            public string Path { get; set; }
-            public DateTime Date { get; set; }
-        }
+      
 
-        public ActionResult Index()
+        public ActionResult Index(string id)
         {
-          String buildDir =   System.Configuration.ConfigurationManager.AppSettings["BuildDirectory"];
-    
-            DirectoryInfo dInfo =  new DirectoryInfo(buildDir);
-
-            var files = dInfo.GetFiles();
+            String buildDir = System.Configuration.ConfigurationManager.AppSettings["BuildDirectory"];
+            DirectoryView view = new DirectoryView();
+            if (id != null)
+            {
+                DirectoryInfo dInfo1 = new DirectoryInfo(buildDir + "/" + id);
+                
+                var files = dInfo1.GetFiles().ToList();
+                view.Files = files;
+                view.Directories = false;
+            }else
+            {
+                DirectoryInfo dInfo = new DirectoryInfo(buildDir);
+                var directories = dInfo.GetDirectories().ToList();
+                view.Directories = true;
+                view.Dirs = directories;
+            }
+          
+            
        
-            return View(files);
+            return View(view);
         }
 
      

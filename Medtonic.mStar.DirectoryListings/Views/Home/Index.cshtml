@@ -1,4 +1,4 @@
-﻿@model FileInfo[] 
+﻿@model Medtonic.mStar.DirectoryListings.DirectoryView 
 @{
     ViewBag.Title = "Home Page";
 
@@ -6,17 +6,34 @@
 
 
 <table>
-
-    <tr>
-    <td>Date</td>
-    <td>File Name</td>
-        </tr>
-    @foreach (var item in Model)
+    @if (Model.Directories == true)
     {
         <tr>
-            <td>@item.CreationTime</td>
-            <td><a href="@item.FullName">@item.Name</a></td>
+            
+            <td>Build Environments</td>
         </tr>
+        foreach (var item in Model.Dirs)
+        {
+            <tr>
+                
+                <td><a href="Index/@item.Name">@item.Name</a></td>
+            </tr>
+        }
+    }
+    else
+    {
+
+        <tr>
+            <td>Date</td>
+            <td>File Name</td>
+        </tr>
+        foreach (var item in Model.Files.OrderByDescending(x=> x.CreationTime))
+        {
+            <tr>
+                <td>@item.CreationTime</td>
+                <td><a href="@item.FullName">@item.Name</a></td>
+            </tr>
+        }
     }
    
 </table>
