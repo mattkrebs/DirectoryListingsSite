@@ -1,0 +1,22 @@
+﻿@model FileInfo[] 
+@{
+    ViewBag.Title = "Home Page";
+
+}
+
+
+<table>
+
+    <tr>
+    <td>Date</td>
+    <td>File Name</td>
+        </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.CreationTime</td>
+            <td><a href="@item.FullName">@item.Name</a></td>
+        </tr>
+    }
+   
+</table>
